@@ -20,7 +20,17 @@ def getCarbon():
     name = request.args.get('name').strip()
     manufacturer = request.args.get('manufacturer').strip()
     categoryName = request.args.get('categoryName').strip()
-    url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer + "&price_currency=GBP&country=GB"
+    price_cents = request.args.get('price_cents').strip()
+    price_currency = request.args.get('price_currency').strip()
+    if (price_cents == None and price_currency == None) {
+        url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer + "&price_currency=GBP&country=GB"
+    }elif (price_cents == None){
+        url = "https://api.ditchcarbon.com/v1.0/product?name=name&manufacturer=manu&price_cents=200&price_currency=GBP"
+
+    }else{
+
+    }
+
     headers = {
         "accept": "application/json",
         "authorization": "Bearer cb527966a16b153262e8b32fdfe809d0"
@@ -47,7 +57,13 @@ def saveToLeaderboard():
 
 @app.route('/api/v1/getLeaderboard', methods = ['GET'])
 def getLeaderboard():
-    return leaderboard
+    leaderboardNew = []
+    for key in leaderboard:
+        username = key
+        total = leaderboard[key]
+        leaderboardNew.append({"username": username, "total": total})
+    leaderboardNew = sorted(leaderboardNew, key=lambda x: x["total"])
+    return {"leaderboard": leaderboardNew}
 
 
 @app.route('/api/v1/verifyLogin', methods = ['GET'])
