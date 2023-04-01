@@ -22,14 +22,15 @@ def getCarbon():
     categoryName = request.args.get('categoryName').strip()
     price_cents = request.args.get('price_cents').strip()
     price_currency = request.args.get('price_currency').strip()
-    if (price_cents == None and price_currency == None) {
-        url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer + "&price_currency=GBP&country=GB"
-    }elif (price_cents == None){
-        url = "https://api.ditchcarbon.com/v1.0/product?name=name&manufacturer=manu&price_cents=200&price_currency=GBP"
+    #
 
-    }else{
+    #if price_cents == None and price_currency == None and categoryName == None:
+      #  url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer + "&price_currency=GBP&country=GB"
+    #}elif price_cents == None and price_currency == None:
+    #    url = "https://api.ditchcarbon.com/v1.0/product?name=name&manufacturer=manu&category_name=bricks"
+    #}else{
 
-    }
+    #}
 
     headers = {
         "accept": "application/json",
