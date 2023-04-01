@@ -1,0 +1,6 @@
+curl -X GET 'localhost:3000/api/v1/getCarbon?name=Thinkpad&manufacturer=Lenovo&categoryName=Laptop'
+curl -X GET 'localhost:3000/api/v1/saveToLeaderboard?username=Bob&carbonForOrder=120'
+curl -X GET 'localhost:3000/api/v1/verifyLogin?username=user&password=pass'
+curl -X GET 'localhost:3000/api/v1/verifyLogin?username=user2&password=pass2'
+curl -X GET 'localhost:3000/api/v1/verifyLogin?username=user&password=pas'
+curl -X GET 'localhost:3000/api/v1/getLeaderboard'
