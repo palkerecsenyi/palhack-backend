@@ -1,3 +1,4 @@
+import base64
 import secrets
 
 import flask
@@ -58,10 +59,13 @@ def verifyLogin():
     resp.headers["Access-Control-Allow-Origin"] = "*"
     if username in users:
         if users[username] == password:
-            resp.data = secrets.token_bytes()
+            print("logged in")
+            resp.data = base64.b64encode(secrets.token_bytes())
         else:
+            print("sad")
             resp.data = "sad"
     else:
+        print("sad")
         resp.data = "sad"
 
     return resp
