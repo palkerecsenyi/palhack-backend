@@ -29,7 +29,7 @@ def getCarbon():
     #}elif price_cents == None and price_currency == None:
     #    url = "https://api.ditchcarbon.com/v1.0/product?name=name&manufacturer=manu&category_name=bricks"
     #}else{
-
+    #
     #}
 
     headers = {
