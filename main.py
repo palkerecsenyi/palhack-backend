@@ -36,7 +36,7 @@ def getCarbon():
         "accept": "application/json",
         "authorization": "Bearer cb527966a16b153262e8b32fdfe809d0"
     }
-    response = requests.get(url, headers=headers)
+    response = requests.get("url", headers=headers)
     return {"carbon": response.json()["kgco2"]}
 
 @app.route('/api/v1/saveToLeaderboard', methods = ['GET'])
@@ -64,7 +64,9 @@ def getLeaderboard():
         total = leaderboard[key]
         leaderboardNew.append({"username": username, "total": total})
     leaderboardNew = sorted(leaderboardNew, key=lambda x: x["total"])
-    return {"leaderboard": leaderboardNew}
+    return leaderboardNew, {
+        "Access-Control-Allow-Origin": "*"
+    }
 
 
 @app.route('/api/v1/verifyLogin', methods = ['GET'])
