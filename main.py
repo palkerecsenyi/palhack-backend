@@ -17,9 +17,9 @@ def hello():
 
 @app.route('/api/v1/getCarbon', methods = ['GET'])
 def getCarbon():
-    name = request.args.get('name')
-    manufacturer = request.args.get('manufacturer')
-    categoryName = request.args.get('categoryName')
+    name = request.args.get('name').strip()
+    manufacturer = request.args.get('manufacturer').strip()
+    categoryName = request.args.get('categoryName').strip()
     url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer + "&price_currency=GBP&country=GB"
     headers = {
         "accept": "application/json",
@@ -30,8 +30,8 @@ def getCarbon():
 
 @app.route('/api/v1/saveToLeaderboard', methods = ['GET'])
 def saveToLeaderboard():
-    username = request.args.get('username')
-    carbonForOrder = request.args.get('carbonForOrder')
+    username = request.args.get('username').strip()
+    carbonForOrder = request.args.get('carbonForOrder').strip()
     if username in leaderboard:
         leaderboard[username] = leaderboard[username] + int(carbonForOrder)
     else:
@@ -41,8 +41,8 @@ def saveToLeaderboard():
     for key in leaderboard:
         username = key
         total = leaderboard[key]
-        leaderboardNew.append([username, total])
-    leaderboardNew = sorted(leaderboardNew, key=lambda x: x[1])
+        leaderboardNew.append({"username": username, "total": total})
+    leaderboardNew = sorted(leaderboardNew, key=lambda x: x["total"])
     return {"leaderboard": leaderboardNew}
 
 @app.route('/api/v1/getLeaderboard', methods = ['GET'])
@@ -52,8 +52,8 @@ def getLeaderboard():
 
 @app.route('/api/v1/verifyLogin', methods = ['GET'])
 def verifyLogin():
-    username = request.args.get('username')
-    password = request.args.get('password')
+    username = request.args.get('username').strip()
+    password = request.args.get('password').strip()
 
     resp = flask.Response()
     resp.headers["Access-Control-Allow-Origin"] = "*"
