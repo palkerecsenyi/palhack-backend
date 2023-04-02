@@ -2,8 +2,8 @@ import base64
 import secrets
 
 import flask
-from flask import Flask, url_for
 import requests
+from flask import Flask
 from flask import request
 from flask_cors import CORS
 
@@ -15,6 +15,16 @@ leaderboardImage = {"Bob": "https://raw.githubusercontent.com/l-sheard/images/ma
 users = {"user": "pass", "user2": "pass2"}
 tokens = {}
 
+PROMPT = """Given data about a product listed on Amazon, convert the data into a machine readable format. The input is a JSON object containing the following fields:
+- name: the title of the product as a string (this may be very verbose)
+- model: the model of the product as a string, if listed by the seller
+- manufacturer: the manufacturer of the product as a string, if listed by the seller (this may be incorrect)
+- categoryName: the category of the product as categorised in the Amazon website (this may be incorrect)
+The response must be purely in a JSON format. There must be no explanation whatsoever. The only permitted keys in the response are conciseName, correctedManufacturer, and category. The conciseName must be a string concisely but accurately representing the title of the product. This will be fuzzy matched against a database of products. The correctedManufacturer must be a string representing the entity or organisation that manufactured the product. The category must represent the type of item that is being purchased. No keys of the response are optional, and a best guess must be provided if an answer cannot be provided accurately. All fields must be plaintext with no special characters (except whitespace).
+Example input: {"name": "Apple iPhone 14 (128 GB) - BlueApple iPhone 14 (128 GB) - Blue", "model": "IPhone 14", "manufacturer": "Apple iPhone", "categoryName": "allProducts"}
+Example output: {"name": "iPhone 14", "manufacturer": "Apple", "category": "Phones"}
+Input: """
+
 @app.route('/')
 def hello():
     return '<h1>Hello, World!</h1>'
@@ -23,9 +33,26 @@ def hello():
 def getCarbon():
     name = request.args.get('name').strip()
     manufacturer = request.args.get('manufacturer').strip()
+    #model = request.args.get('model').strip()
     categoryName = request.args.get('categoryName').strip()
     price_cents = request.args.get('price_cents').strip()
     price_currency = request.args.get('price_currency').strip()
+    #completion = openai.Completion.create(
+    #    model="text-davinci-003",
+    #    prompt=PROMPT + json.dumps({"name": name, "manufacturer": manufacturer, "model": model, "categoryName": categoryName}) + "\nOutput:",
+    #    stop="}"
+    #)
+    #for choice in completion.choices:
+    #    print(choice.message)
+    #    try:
+    #        fixed = json.loads(choice.message) + "}"
+    #        name = fixed["conciseName"]
+    #        manufacturer = fixed["manufacturer"]
+    #        categoryName = fixed["category"]
+    #        print("used gpt", fixed)
+    #        break
+    #    except (ValueError, TypeError, SyntaxError) as e:
+    #        print("gpt failed", e)
     url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer
     if categoryName is not None:
         url = url + "&category_name=" + categoryName
