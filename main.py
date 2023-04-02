@@ -35,7 +35,9 @@ def getCarbon():
         "authorization": "Bearer cb527966a16b153262e8b32fdfe809d0"
     }
     response = requests.get(url, headers=headers)
-    return {"carbon": response.json()["kgco2"]}
+    return {"carbon": response.json()["kgco2"]}, {
+        "Access-Control-Allow-Origin": "*"
+    }
 
 @app.route('/api/v1/saveToLeaderboard', methods = ['GET'])
 def saveToLeaderboard():
