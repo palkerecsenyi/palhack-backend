@@ -38,12 +38,12 @@ def getCarbon():
         "accept": "application/json",
         "authorization": "Bearer cb527966a16b153262e8b32fdfe809d0"
     }
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers).json()
     if "kgco2" not in response:
         return {"carbon": None}, {
         "Access-Control-Allow-Origin": "*"
     }
-    return {"carbon": response.json()["kgco2"]}, {
+    return {"carbon": response["kgco2"]}, {
         "Access-Control-Allow-Origin": "*"
     }
 
