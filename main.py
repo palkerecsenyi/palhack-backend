@@ -22,21 +22,19 @@ def getCarbon():
     categoryName = request.args.get('categoryName').strip()
     price_cents = request.args.get('price_cents').strip()
     price_currency = request.args.get('price_currency').strip()
-    #
-
-    #if price_cents == None and price_currency == None and categoryName == None:
-      #  url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer + "&price_currency=GBP&country=GB"
-    #}elif price_cents == None and price_currency == None:
-    #    url = "https://api.ditchcarbon.com/v1.0/product?name=name&manufacturer=manu&category_name=bricks"
-    #}else{
-    #
-    #}
+    url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer
+    if categoryName != None:
+        url = url + "&category_name=" + categoryName
+    if price_cents != None:
+        url = url + "&price_cents=" + price_cents
+    if price_currency != None:
+        url = url + "&price_currency=" + price_currency
 
     headers = {
         "accept": "application/json",
         "authorization": "Bearer cb527966a16b153262e8b32fdfe809d0"
     }
-    response = requests.get("url", headers=headers)
+    response = requests.get(url, headers=headers)
     return {"carbon": response.json()["kgco2"]}
 
 @app.route('/api/v1/saveToLeaderboard', methods = ['GET'])
