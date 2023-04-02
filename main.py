@@ -13,6 +13,7 @@ CORS(app, send_wildcard=True)
 leaderboard = {"Bob": 0, "Jimmy": 120, "Tom": 130}
 leaderboardImage = {"Bob": "https://raw.githubusercontent.com/l-sheard/images/main/duckTwo.jpg", "Jimmy": "https://raw.githubusercontent.com/l-sheard/images/main/duckOne.jpg", "Tom": "https://raw.githubusercontent.com/l-sheard/images/main/duckThreeSquare.jpg"}
 users = {"user": "pass", "user2": "pass2"}
+tokens = {}
 
 @app.route('/')
 def hello():
@@ -48,7 +49,8 @@ def getCarbon():
 
 @app.route('/api/v1/saveToLeaderboard', methods = ['GET'])
 def saveToLeaderboard():
-    username = request.args.get('username').strip()
+    token = request.args.get('token').strip()
+    username = tokens[token]
     carbonForOrder = request.args.get('carbonForOrder').strip()
     if username in leaderboard:
         leaderboard[username] = leaderboard[username] + int(carbonForOrder)
@@ -87,7 +89,9 @@ def verifyLogin():
     if username in users:
         if users[username] == password:
             print("logged in")
-            resp.data = base64.b64encode(secrets.token_bytes())
+            token = base64.b64encode(secrets.token_bytes())
+            resp.data = token
+            tokens[token] = username
         else:
             print("sad")
             resp.data = "sad"
