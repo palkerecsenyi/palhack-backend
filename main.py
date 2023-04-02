@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, send_wildcard=True)
 
 leaderboard = {"Bob": 0, "Jimmy": 120, "Tom": 130}
-leaderboardImage = {"Bob": "/static/duckOne.jpg", "Jimmy": "/static/duckTwo.jpg", "Tom": "/static/duckThreeSquare.jpg"}
+leaderboardImage = {"Bob": "https://github.com/l-sheard/images/blob/main/duckOne.jpg", "Jimmy": "https://github.com/l-sheard/images/blob/main/duckThreeSquare.jpg", "Tom": "https://github.com/l-sheard/images/blob/main/duckTwo.jpg"}
 users = {"user": "pass", "user2": "pass2"}
 
 @app.route('/')
@@ -70,7 +70,7 @@ def getLeaderboard():
         username = key
         total = leaderboard[key]
         imageURL = leaderboardImage[key]
-        leaderboardNew.append({"username": username, "total": total, "url": url_for(imageURL)})
+        leaderboardNew.append({"username": username, "total": total, "url": imageURL})
     leaderboardNew = sorted(leaderboardNew, key=lambda x: x["total"])
     return leaderboardNew, {
         "Access-Control-Allow-Origin": "*"
