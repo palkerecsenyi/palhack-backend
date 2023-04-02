@@ -110,7 +110,7 @@ def getCarbon():
 
 @app.route('/api/v1/saveToLeaderboard', methods = ['GET'])
 def saveToLeaderboard():
-    token = request.args.get('token').strip()
+    token = request.args.get('token').strip().encode("utf-8")
     username = tokens[token]
     carbonForOrder = request.args.get('carbonForOrder').strip()
     if username in leaderboard:
@@ -151,7 +151,7 @@ def verifyLogin():
     if username in users:
         if users[username] == password:
             print("logged in")
-            token = base64.b64encode(secrets.token_bytes())
+            token = base64.urlsafe_b64encode(secrets.token_bytes())
             resp.data = token
             tokens[token] = username
         else:
