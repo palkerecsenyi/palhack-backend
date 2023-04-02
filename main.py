@@ -23,11 +23,11 @@ def getCarbon():
     price_cents = request.args.get('price_cents').strip()
     price_currency = request.args.get('price_currency').strip()
     url = "https://api.ditchcarbon.com/v1.0/product?name=" + name + "&manufacturer=" + manufacturer
-    if categoryName != None:
+    if categoryName is not None:
         url = url + "&category_name=" + categoryName
-    if price_cents != None:
+    if price_cents is not None:
         url = url + "&price_cents=" + price_cents
-    if price_currency != None:
+    if price_currency is not None:
         url = url + "&price_currency=" + price_currency
 
     headers = {
