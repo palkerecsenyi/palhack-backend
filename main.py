@@ -70,7 +70,7 @@ def getLeaderboard():
         username = key
         total = leaderboard[key]
         imageURL = leaderboardImage[key]
-        leaderboardNew.append({"username": username, "total": total, "url": imageURL})
+        leaderboardNew.append({"username": username, "total": total, "url": request.base_url + imageURL})
     leaderboardNew = sorted(leaderboardNew, key=lambda x: x["total"])
     return leaderboardNew, {
         "Access-Control-Allow-Origin": "*"
