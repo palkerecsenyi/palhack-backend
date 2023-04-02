@@ -37,7 +37,7 @@ def getCarbon():
         "authorization": "Bearer cb527966a16b153262e8b32fdfe809d0"
     }
     response = requests.get(url, headers=headers)
-    if response == []:
+    if "kgco2" not in response:
         return {"carbon": None}, {
         "Access-Control-Allow-Origin": "*"
     }
