@@ -37,10 +37,11 @@ def hello():
 def subtractDuckCredits():
     # Subtracts the amount spent in the duck store from the users credits total
     amountSpent = request.args.get('amountSpent').strip()
-    token = request.args.get('token').strip()
+    token = request.args.get('token').strip().encode("utf-8")
     if token in tokens:
         username = tokens[token]
-        userCredits[username] = userCredits[username] - amountSpent
+        userCredits[username] = userCredits[username] - int(amountSpent)
+        return {}, 200, {}
     else:
         return {}, 403, {}
 
