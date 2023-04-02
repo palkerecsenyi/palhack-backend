@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, send_wildcard=True)
 
 leaderboard = {"Bob": 0, "Jimmy": 120, "Tom": 130}
-leaderboardImage = {"Bob": "/static/duckOne.jpg", "Jimmy": "/static/duckTwo.jpg", "Tom": "/duckThreeSquare.jpg"}
+leaderboardImage = {"Bob": "/static/duckOne.jpg", "Jimmy": "/static/duckTwo.jpg", "Tom": "/static/duckThreeSquare.jpg"}
 users = {"user": "pass", "user2": "pass2"}
 
 @app.route('/')
