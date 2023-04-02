@@ -2,7 +2,7 @@ import base64
 import secrets
 
 import flask
-from flask import Flask
+from flask import Flask, url_for
 import requests
 from flask import request
 from flask_cors import CORS
@@ -70,7 +70,7 @@ def getLeaderboard():
         username = key
         total = leaderboard[key]
         imageURL = leaderboardImage[key]
-        leaderboardNew.append({"username": username, "total": total, "url": request.base_url + imageURL})
+        leaderboardNew.append({"username": username, "total": total, "url": url_for(imageURL)})
     leaderboardNew = sorted(leaderboardNew, key=lambda x: x["total"])
     return leaderboardNew, {
         "Access-Control-Allow-Origin": "*"
