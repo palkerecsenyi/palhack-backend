@@ -8,7 +8,7 @@ from flask import request
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, send_wildcard=True)
 
 leaderboard = {"Bob": 0, "Jimmy": 0}
 users = {"user": "pass", "user2": "pass2"}
