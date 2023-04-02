@@ -10,9 +10,13 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, send_wildcard=True)
 
-leaderboard = {"Bob": 0, "Jimmy": 120, "Tom": 130}
+leaderboard = {"Bob": 10, "Jimmy": 120, "Tom": 130}
 leaderboardImage = {"Bob": "https://raw.githubusercontent.com/l-sheard/images/main/duckTwo.jpg", "Jimmy": "https://raw.githubusercontent.com/l-sheard/images/main/duckOne.jpg", "Tom": "https://raw.githubusercontent.com/l-sheard/images/main/duckThreeSquare.jpg"}
-users = {"user": "pass", "user2": "pass2"}
+database = [["Bob", 10], ["Jimmy", 25], ["Tom", 110], ["Tom", 20], ["Jimmy", 95]]
+users = {"Bob": "pass", "Jimmy": "pass2"}
+userStatus = {"Bob": "happy", "Jimmy": "sad", "Tom": "dead"}
+#dead, dying, sad, happy
+userCredits = {"Bob": 25, "Jimmy": 15, "Tom": 9}
 tokens = {}
 
 PROMPT = """Given data about a product listed on Amazon, convert the data into a machine readable format. The input is a JSON object containing the following fields:
@@ -28,6 +32,25 @@ Input: """
 @app.route('/')
 def hello():
     return '<h1>Hello, World!</h1>'
+
+@app.route('/api/v1/getDuckCredits', methods = ['GET'])
+def getDuckCredits():
+    # returns the number of credits that the user has
+    token = request.args.get('token').strip().encode("utf-8")
+    print(token, tokens)
+    if token in tokens:
+        username = tokens[token]
+        return {"userCredits": userCredits[username]}
+    else:
+        return {}, 403, {}
+
+@app.route('/api/v1/getUserStatus', methods = ['GET'])
+def getStatus():
+    username = request.args.get('username').strip()
+    if username in userStatus:
+        return {"userStatus": userStatus[username]}
+    else:
+        return {}, 403, {}
 
 @app.route('/api/v1/getCarbon', methods = ['GET'])
 def getCarbon():
@@ -84,6 +107,7 @@ def saveToLeaderboard():
     else:
         leaderboard[username] = carbonForOrder
 
+    database.append([username, carbonForOrder])
     leaderboardNew = []
     for key in leaderboard:
         username = key
