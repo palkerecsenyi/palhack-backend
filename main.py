@@ -33,6 +33,17 @@ Input: """
 def hello():
     return '<h1>Hello, World!</h1>'
 
+@app.route('/api/v1/subtractDuckCredits', methods = ['GET'])
+def subtractDuckCredits():
+    # Subtracts the amount spent in the duck store from the users credits total
+    amountSpent = request.args.get('amountSpent').strip()
+    token = request.args.get('token').strip()
+    if token in tokens:
+        username = tokens[token]
+        userCredits[username] = userCredits[username] - amountSpent
+    else:
+        return {}, 403, {}
+
 @app.route('/api/v1/getDuckCredits', methods = ['GET'])
 def getDuckCredits():
     # returns the number of credits that the user has
