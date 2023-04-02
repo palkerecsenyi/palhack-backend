@@ -43,7 +43,7 @@ def getCarbon():
         return {"carbon": None}, {
         "Access-Control-Allow-Origin": "*"
     }
-    return {"carbon": response["kgco2"]}, {
+    return {"carbon": round(response["kgco2"], 2)}, {
         "Access-Control-Allow-Origin": "*"
     }
 
